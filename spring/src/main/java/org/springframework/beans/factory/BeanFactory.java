@@ -25,6 +25,12 @@ import org.springframework.beans.BeansException;
  * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory}
  * are available for specific purposes.
  *
+ * 该接口是访问spring bean容器的根接口
+ * 这是bean容器最基本的一个客户端视图
+ * 进一步的接口有{@link ListableBeanFactory} 和 {@link org.springframework.beans.factory.config.ConfigurableBeanFactory}
+ * 他们提供了特定目的的功能
+ *
+ *
  * <p>This interface is implemented by objects that hold a number of bean definitions,
  * each uniquely identified by a String name. Depending on the bean definition,
  * the factory will return either an independent instance of a contained object
@@ -35,17 +41,32 @@ import org.springframework.beans.BeansException;
  * 2.0, further scopes are available depending on the concrete application
  * context (e.g. "request" and "session" scopes in a web environment).
  *
+ * 这个接口的是由持有许多BeanDefinition的对象实现的,每一个BeanDefinition都有唯一的名字标识,
+ * 这个工厂会返回一个独立的bean(也就是Prototype[原型]模式),或者一个共享的实例(也是就是Singleton[单例]模式)
+ * 返回是Singleton或者Prototype取决于工厂的配置,但是他们的API都是相同,从spring2.0开始,可以使用更多的范围
+ * (比如在web环境下可以使用request返回或者session范围)
+ *
+ *
+ *
  * <p>The point of this approach is that the BeanFactory is a central registry
  * of application components, and centralizes configuration of application
  * components (no more do individual objects need to read properties files,
  * for example). See chapters 4 and 11 of "Expert One-on-One J2EE Design and
  * Development" for a discussion of the benefits of this approach.
  *
+ * 这些方法的重心是BeanFactory是一个应用程序的注册中心以及应用程序的配置中心(每个对象不需要单独的读取配置文件)
+ * 可以查看Expert One-on-One J2EE Design and Development 这本书的chapters 4 和 11讨论这个方式的好处
+ *
+ *
  * <p>Note that it is generally better to rely on Dependency Injection
  * ("push" configuration) to configure application objects through setters
  * or constructors, rather than use any form of "pull" configuration like a
  * BeanFactory lookup. Spring's Dependency Injection functionality is
  * implemented using this BeanFactory interface and its subinterfaces.
+ *
+ * 需要注意的是,通过set方法或者构造器依赖注入通常更好,而不是通过bean工厂去拉去(个人理解pull就是通过
+ * BeanFactory.getBean的方式获取),spring的依赖注入是通过BeanFactory以及子类接口来实现的
+ *
  *
  * <p>Normally a BeanFactory will load bean definitions stored in a configuration
  * source (such as an XML document), and use the {@code org.springframework.beans}
@@ -55,11 +76,22 @@ import org.springframework.beans.BeansException;
  * properties file, etc. Implementations are encouraged to support references
  * amongst beans (Dependency Injection).
  *
+ * 通常情况下,BeanFactory会从一个配置源(例如一个XML文件)中加载BeanDefinition,然后
+ * 使用{@code org.springframework.beans}打包配置bean,一个实现可以通过Java代码
+ * 很容易的返回一个Java对象.但是并没有约束如何存储bean定义,可以通过LDAP, RDBMS, XML,properties file
+ * 这些方式来存储.鼓励通过bean之间的引用(依赖注入)来实现
+ *
+ *
  * <p>In contrast to the methods in {@link ListableBeanFactory}, all of the
  * operations in this interface will also check parent factories if this is a
  * {@link HierarchicalBeanFactory}. If a bean is not found in this factory instance,
  * the immediate parent factory will be asked. Beans in this factory instance
  * are supposed to override beans of the same name in any parent factory.
+ *
+ * 和{@link ListableBeanFactory}不同,所有实现{@link HierarchicalBeanFactory}接口的类,
+ * 在使用的时候会先检查父工厂,如果bean没有在当前bean工厂中发现,那么会从直接父工厂中查询是否存在.
+ * 当前工厂中定义的bean实例,会覆盖在父工厂中定义名称相同的bean.
+ *
  *
  * <p>Bean factory implementations should support the standard bean lifecycle interfaces
  * as far as possible. The full set of initialization methods and their standard order is:<br>
@@ -84,6 +116,24 @@ import org.springframework.beans.BeansException;
  * <p>On shutdown of a bean factory, the following lifecycle methods apply:<br>
  * 1. DisposableBean's {@code destroy}<br>
  * 2. a custom destroy-method definition
+ *
+ * bean工厂的实现应该支持标准的bean生命周期接口,完整的初始化方法和顺序是:
+ * 1.BeanNameAware接口的setBeanName方法
+ * 2.BeanClassLoaderAware接口的setBeanClassLoader方法
+ * 3.BeanFactoryAware接口的setBeanFactory方法
+ * 4.ResourceLoaderAware接口的setResourceLoader方法(在应用程序上下文中运行时)
+ * 5.ApplicationEventPublisherAware接口的setApplicationEventPublisher方法(在应用程序上下文中运行时)
+ * 6.MessageSourceAware接口的setMessageSource方法(在应用程序上下文中运行时)
+ * 7.ApplicationContextAware的setApplicationContext方法(在应用程序上下文中运行时)
+ * 8.ServletContextAware接口的setServletContext方法(在web应用程序上下文中运行时)
+ * 9.各种BeanPostProcessors的postProcessBeforeInitialization方法(很多BeanPostProcessor接口)
+ * 10.InitializingBean的afterPropertiesSet方法
+ * 11.自定义的init-method方法
+ * 12.各种BeanPostProcessors的postProcessAfterInitialization方法(很多BeanPostProcessor接口)
+ *
+ * 当关闭bean工厂的时候,以下的生命周期方法将适用
+ * 1.DisposableBean接口的destroy方法
+ * 2.自定义的destroy-method方法
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
