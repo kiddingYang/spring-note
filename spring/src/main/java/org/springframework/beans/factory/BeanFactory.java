@@ -161,6 +161,15 @@ public interface BeanFactory {
      * beans <i>created</i> by the FactoryBean. For example, if the bean named
      * {@code myJndiObject} is a FactoryBean, getting {@code &myJndiObject}
      * will return the factory, not the instance returned by the factory.
+     *
+     * &是用来取消创建FactoryBean本身实例,并且与FactoryBean创建的bean区分开来.
+     * 比如,如果一个名称为myJndiObject的FactoryBean,使用&myJndiObject回返回FactoryBean,
+     * 而不是工厂本身的实例.
+     *
+     * 个人理解:如果一个类实现了FactoryBean,如果需要获得FactoryBean本身的实例,那么就需要
+     * 加上&来获取,如果不加&符号获取,得到的是org.springframework.beans.factory.FactoryBean#getObject()
+     * 返回的对象
+     *
      */
     String FACTORY_BEAN_PREFIX = "&";
 
@@ -171,6 +180,13 @@ public interface BeanFactory {
      * returned objects in the case of Singleton beans.
      * <p>Translates aliases back to the corresponding canonical bean name.
      * Will ask the parent factory if the bean cannot be found in this factory instance.
+     *
+     * 返回一个实例,这个实例可能是单例或者原型,这个方法允许spring BeanFactory为Singleton模式或者
+     * Prototype模式,调用者可以保留在单例情况下返回的实例
+     * 可以通过别名转为相应的bean.
+     * 如果在当前工厂中找不到当前实例,那么就会从父工厂中询问
+     *
+     *
      * @param name the name of the bean to retrieve
      * @return an instance of the bean
      * @throws NoSuchBeanDefinitionException if there is no bean definition
@@ -187,6 +203,9 @@ public interface BeanFactory {
      * the result correctly, as can happen with {@link #getBean(String)}.
      * <p>Translates aliases back to the corresponding canonical bean name.
      * Will ask the parent factory if the bean cannot be found in this factory instance.
+     *
+     *
+     *
      * @param name the name of the bean to retrieve
      * @param requiredType type the bean must match. Can be an interface or superclass
      * of the actual class, or {@code null} for any match. For example, if the value

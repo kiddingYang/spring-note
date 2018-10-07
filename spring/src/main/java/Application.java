@@ -14,7 +14,8 @@ public class Application {
 
         BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
         Person person = beanFactory.getBean(Person.class);
-        System.out.println(person);
+        Object personAlias = beanFactory.getBean("personAlias");
+        System.out.println(personAlias);
 
     }
 
