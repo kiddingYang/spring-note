@@ -79,6 +79,10 @@ public interface ListableBeanFactory extends BeanFactory {
      * <p>Does not consider any hierarchy this factory may participate in,
      * and ignores any singleton beans that have been registered by
      * other means than bean definitions.
+     *
+     * 检查房钱bean工厂是否包含给定名称的beanDefinition
+     * 不会考虑任何父工厂中是定义,将会忽略已其他方式而不是通过beanDefinition注册的单例bean.
+     *
      * @param beanName the name of the bean to look for
      * @return if this bean factory contains a bean definition with the given name
      * @see #containsBean
@@ -90,6 +94,10 @@ public interface ListableBeanFactory extends BeanFactory {
      * <p>Does not consider any hierarchy this factory may participate in,
      * and ignores any singleton beans that have been registered by
      * other means than bean definitions.
+     *
+     * 将会返回当前bean工厂定义的bean数量
+     * 不会考虑任何父工厂中是定义,将会忽略已其他方式而不是通过beanDefinition注册的单例bean.
+     *
      * @return the number of beans defined in the factory
      */
     int getBeanDefinitionCount();
@@ -99,6 +107,10 @@ public interface ListableBeanFactory extends BeanFactory {
      * <p>Does not consider any hierarchy this factory may participate in,
      * and ignores any singleton beans that have been registered by
      * other means than bean definitions.
+     *
+     * 将会返回当前bean工厂定义的所有bean的名称
+     * 不会考虑任何父工厂中是定义,将会忽略已其他方式而不是通过beanDefinition注册的单例bean.
+     *
      * @return the names of all beans defined in this factory,
      * or an empty array if none defined
      */
@@ -135,20 +147,28 @@ public interface ListableBeanFactory extends BeanFactory {
      * Return the names of beans matching the given type (including subclasses),
      * judging from either bean definitions or the value of {@code getObjectType}
      * in the case of FactoryBeans.
+     *
+     *
      * <p><b>NOTE: This method introspects top-level beans only.</b> It does <i>not</i>
      * check nested beans which might match the specified type as well.
+     *
+     *
      * <p>Does consider objects created by FactoryBeans if the "allowEagerInit" flag is set,
      * which means that FactoryBeans will get initialized. If the object created by the
      * FactoryBean doesn't match, the raw FactoryBean itself will be matched against the
      * type. If "allowEagerInit" is not set, only raw FactoryBeans will be checked
      * (which doesn't require initialization of each FactoryBean).
+     *
      * <p>Does not consider any hierarchy this factory may participate in.
      * Use BeanFactoryUtils' {@code beanNamesForTypeIncludingAncestors}
      * to include beans in ancestor factories too.
+     *
      * <p>Note: Does <i>not</i> ignore singleton beans that have been registered
      * by other means than bean definitions.
+     *
      * <p>Bean names returned by this method should always return bean names <i>in the
      * order of definition</i> in the backend configuration, as far as possible.
+     *
      * @param type the class or interface to match, or {@code null} for all bean names
      * @param includeNonSingletons whether to include prototype or scoped beans too
      * or just singletons (also applies to FactoryBeans)
