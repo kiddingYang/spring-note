@@ -28,10 +28,18 @@ import org.springframework.beans.BeansException;
  * preload all their bean definitions (such as XML-based factories) may implement
  * this interface.
  *
+ * {@link BeanFactory}接口的扩展,如果实现该接口的bean工厂可以枚举出所有bean的实例,
+ * 而不是通过调用方一个一个通过名称去查找,bean工厂实现预加载所有beanDefinitions可以实现该接口
+ *
+ *
  * <p>If this is a {@link HierarchicalBeanFactory}, the return values will <i>not</i>
  * take any BeanFactory hierarchy into account, but will relate only to the beans
  * defined in the current factory. Use the {@link BeanFactoryUtils} helper class
  * to consider beans in ancestor factories too.
+ *
+ * 如果是一个{@link HierarchicalBeanFactory} 类,返回的值将不会考虑父工厂中定义的bean,
+ * 只会返回与当前工厂相关的定义.{@link BeanFactoryUtils} 这个类会考虑祖先工厂中定义的bean
+ *
  *
  * <p>The methods in this interface will just respect bean definitions of this factory.
  * They will ignore any singleton beans that have been registered by other means like
@@ -43,9 +51,20 @@ import org.springframework.beans.BeansException;
  * scenarios, all beans will be defined by external bean definitions anyway, so most
  * applications don't need to worry about this differentation.
  *
+ * 该接口中的方法只会考虑当前工厂中的bean定义,他们会忽略其他方式注册的单例bean比如:
+ * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory},
+ * {@code registerSingleton} 方法,
+ * 除了{@code getBeanNamesOfType} and {@code getBeansOfType}将会检查手动注册的单例
+ * 当前, BeanFactory's {@code getBean}方法也允许透明的访问这些特殊的bean.然而在典型
+ * 场景下,所有的bean都是由外部定义的(如xml),所以大部分的应用程序都不需要考虑这种差异.
+ *
+ *
  * <p><b>NOTE:</b> With the exception of {@code getBeanDefinitionCount}
  * and {@code containsBeanDefinition}, the methods in this interface
  * are not designed for frequent invocation. Implementations may be slow.
+ *
+ * 除了{@code getBeanDefinitionCount} 和 {@code containsBeanDefinition}
+ * 这个接口中的方法不是为了频繁调用而设计的.实现可能是比较缓慢的
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
