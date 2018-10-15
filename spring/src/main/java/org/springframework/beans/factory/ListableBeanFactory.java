@@ -80,7 +80,7 @@ public interface ListableBeanFactory extends BeanFactory {
      * and ignores any singleton beans that have been registered by
      * other means than bean definitions.
      *
-     * 检查房钱bean工厂是否包含给定名称的beanDefinition
+     * 检查当前bean工厂是否包含给定名称的beanDefinition
      * 不会考虑任何父工厂中是定义,将会忽略已其他方式而不是通过beanDefinition注册的单例bean.
      *
      * @param beanName the name of the bean to look for
@@ -120,21 +120,46 @@ public interface ListableBeanFactory extends BeanFactory {
      * Return the names of beans matching the given type (including subclasses),
      * judging from either bean definitions or the value of {@code getObjectType}
      * in the case of FactoryBeans.
+     *
+     * 返回匹配给定类型的bean的名称(包括子类),会从bean的定义或者FactoryBeans的{@code getObjectType}
+     * 方法来判断
+     *
+     *
      * <p><b>NOTE: This method introspects top-level beans only.</b> It does <i>not</i>
      * check nested beans which might match the specified type as well.
      * <p>Does consider objects created by FactoryBeans, which means that FactoryBeans
      * will get initialized. If the object created by the FactoryBean doesn't match,
      * the raw FactoryBean itself will be matched against the type.
+     *
+     * 这个方法只针针对顶级的bean有效,不会对内嵌bean进行校验,即使有可能和类型匹配.
+     * 考虑了由FactoryBeans创建的对象,如果由FactoryBeans创建的对象不匹配,那么原始的FactoryBeans
+     * 本身将和类型匹配
+     *
      * <p>Does not consider any hierarchy this factory may participate in.
      * Use BeanFactoryUtils' {@code beanNamesForTypeIncludingAncestors}
      * to include beans in ancestor factories too.
+     *
+     * 当前方法不考虑这个工厂的父工厂,可以使用BeanFactoryUtils的{@code beanNamesForTypeIncludingAncestors}
+     * 方法将会包括祖先的bean
+     *
      * <p>Note: Does <i>not</i> ignore singleton beans that have been registered
      * by other means than bean definitions.
+     *
+     * 不会忽略由其他方式而不是通过beanDefinitions定义的bean
+     *
      * <p>This version of {@code getBeanNamesForType} matches all kinds of beans,
      * be it singletons, prototypes, or FactoryBeans. In most implementations, the
      * result will be the same as for {@code getBeanNamesOfType(type, true, true)}.
+     *
+     * 当前版本的{@code getBeanNamesForType}会匹配所有类型的bean,包括单例,原型,或者FactoryBeans
+     * 创建的bean,在大多数的实现中,当前方法的结果和{@code getBeanNamesOfType(type, true, true)}一样
+     *
      * <p>Bean names returned by this method should always return bean names <i>in the
      * order of definition</i> in the backend configuration, as far as possible.
+     *
+     * 当前方法返回的总是bean的名称,尽可能在配置中配置定义顺序
+     *
+     *
      * @param type the class or interface to match, or {@code null} for all bean names
      * @return the names of beans (or objects created by FactoryBeans) matching
      * the given object type (including subclasses), or an empty array if none
@@ -148,10 +173,15 @@ public interface ListableBeanFactory extends BeanFactory {
      * judging from either bean definitions or the value of {@code getObjectType}
      * in the case of FactoryBeans.
      *
+     * 返回匹配给定类型的bean的名称(包括子类),会从bean的定义或者FactoryBeans的{@code getObjectType}
+     * 方法来判断
      *
      * <p><b>NOTE: This method introspects top-level beans only.</b> It does <i>not</i>
      * check nested beans which might match the specified type as well.
      *
+     * 这个方法只针针对顶级的bean有效,不会对内嵌bean进行校验,即使有可能和类型匹配.
+     * 考虑了由FactoryBeans创建的对象,如果由FactoryBeans创建的对象不匹配,那么原始的FactoryBeans
+     * 本身将和类型匹配
      *
      * <p>Does consider objects created by FactoryBeans if the "allowEagerInit" flag is set,
      * which means that FactoryBeans will get initialized. If the object created by the
@@ -159,15 +189,27 @@ public interface ListableBeanFactory extends BeanFactory {
      * type. If "allowEagerInit" is not set, only raw FactoryBeans will be checked
      * (which doesn't require initialization of each FactoryBean).
      *
+     * 如果设置了allowEagerInit标志,则考虑由FactoryBeans创建的对象,这意味着FactoryBeans将会被初始化,
+     * 如果由FactoryBeans创建的对象不匹配,那么原始FactoryBeans对象本身将与之匹配,如果allowEagerInit
+     * 没有设置,那么智慧检查原始的FactoryBeans(因为不需要每个FactoryBeans初始化,就是没有提前初始化)
+     *
+     *
      * <p>Does not consider any hierarchy this factory may participate in.
      * Use BeanFactoryUtils' {@code beanNamesForTypeIncludingAncestors}
      * to include beans in ancestor factories too.
      *
+     * 当前方法不考虑这个工厂的父工厂,可以使用BeanFactoryUtils的{@code beanNamesForTypeIncludingAncestors}
+     * 方法将会包括祖先的bean
+     *
      * <p>Note: Does <i>not</i> ignore singleton beans that have been registered
      * by other means than bean definitions.
      *
+     * 不会忽略由其他方式而不是通过beanDefinitions定义的bean
+     *
      * <p>Bean names returned by this method should always return bean names <i>in the
      * order of definition</i> in the backend configuration, as far as possible.
+     *
+     * 当前方法返回的总是bean的名称,尽可能在配置中配置定义顺序
      *
      * @param type the class or interface to match, or {@code null} for all bean names
      * @param includeNonSingletons whether to include prototype or scoped beans too
@@ -188,22 +230,46 @@ public interface ListableBeanFactory extends BeanFactory {
      * Return the bean instances that match the given object type (including
      * subclasses), judging from either bean definitions or the value of
      * {@code getObjectType} in the case of FactoryBeans.
+     *
+     * 返回匹配给定类型的bean的名称(包括子类),会从bean的定义或者FactoryBeans的{@code getObjectType}
+     * 方法来判断
+     *
      * <p><b>NOTE: This method introspects top-level beans only.</b> It does <i>not</i>
      * check nested beans which might match the specified type as well.
      * <p>Does consider objects created by FactoryBeans, which means that FactoryBeans
      * will get initialized. If the object created by the FactoryBean doesn't match,
      * the raw FactoryBean itself will be matched against the type.
+     *
+     * 这个方法只针针对顶级的bean有效,不会对内嵌bean进行校验,即使有可能和类型匹配.
+     * 考虑了由FactoryBeans创建的对象,如果由FactoryBeans创建的对象不匹配,那么原始的FactoryBeans
+     * 本身将和类型匹配
+     *
      * <p>Does not consider any hierarchy this factory may participate in.
      * Use BeanFactoryUtils' {@code beansOfTypeIncludingAncestors}
      * to include beans in ancestor factories too.
+     *
+     * 当前方法不考虑这个工厂的父工厂,可以使用BeanFactoryUtils的{@code beanNamesForTypeIncludingAncestors}
+     * 方法将会包括祖先的bean
+     *
      * <p>Note: Does <i>not</i> ignore singleton beans that have been registered
      * by other means than bean definitions.
+     *
+     * 不会忽略由其他方式而不是通过beanDefinitions定义的bean
+     *
      * <p>This version of getBeansOfType matches all kinds of beans, be it
      * singletons, prototypes, or FactoryBeans. In most implementations, the
      * result will be the same as for {@code getBeansOfType(type, true, true)}.
+     *
+     * 当前版本的{@code getBeanNamesForType}会匹配所有类型的bean,包括单例,原型,或者FactoryBeans
+     * 创建的bean,在大多数的实现中,当前方法的结果和{@code getBeanNamesOfType(type, true, true)}一样
+     *
+     *
      * <p>The Map returned by this method should always return bean names and
      * corresponding bean instances <i>in the order of definition</i> in the
      * backend configuration, as far as possible.
+     *
+     * 这个方法的返回映射应该总是返回bean的名称,对应bean的实例尽可能是配置中定义的顺序.
+     *
      * @param type the class or interface to match, or {@code null} for all concrete beans
      * @return a Map with the matching beans, containing the bean names as
      * keys and the corresponding bean instances as values
@@ -233,6 +299,17 @@ public interface ListableBeanFactory extends BeanFactory {
      * <p>The Map returned by this method should always return bean names and
      * corresponding bean instances <i>in the order of definition</i> in the
      * backend configuration, as far as possible.
+     *
+     *
+     * 返回匹配给定类型的bean的名称(包括子类),会从bean的定义或者FactoryBeans的{@code getObjectType}
+     * 方法来判断,如果设置了allowEagerInit标志,则考虑由FactoryBeans创建的对象,这意味着FactoryBeans将会被初始化,
+     * 如果由FactoryBeans创建的对象不匹配,那么原始FactoryBeans对象本身将与之匹配,如果allowEagerInit
+     * 没有设置,那么智慧检查原始的FactoryBeans(因为不需要每个FactoryBeans初始化,就是没有提前初始化)
+     * 当前方法不考虑这个工厂的父工厂,可以使用BeanFactoryUtils的{@code beanNamesForTypeIncludingAncestors}
+     * 方法将会包括祖先的bean,不会忽略由其他方式而不是通过beanDefinitions定义的bean
+     * 这个方法的返回映射应该总是返回bean的名称,对应bean的实例尽可能是配置中定义的顺序.
+     *
+     *
      * @param type the class or interface to match, or {@code null} for all concrete beans
      * @param includeNonSingletons whether to include prototype or scoped beans too
      * or just singletons (also applies to FactoryBeans)
@@ -252,6 +329,9 @@ public interface ListableBeanFactory extends BeanFactory {
 
     /**
      * Find all beans whose {@code Class} has the supplied {@link java.lang.annotation.Annotation} type.
+     *
+     * 查询所有拥有注解的bean的类
+     *
      * @param annotationType the type of annotation to look for
      * @return a Map with the matching beans, containing the bean names as
      * keys and the corresponding bean instances as values
@@ -264,6 +344,9 @@ public interface ListableBeanFactory extends BeanFactory {
      * Find a {@link Annotation} of {@code annotationType} on the specified
      * bean, traversing its interfaces and super classes if no annotation can be
      * found on the given class itself.
+     *
+     * 在特定bean上查找注解,如果在本类上查询不到,那么就在接口或者超类中查询
+     *
      * @param beanName the name of the bean to look for annotations on
      * @param annotationType the annotation class to look for
      * @return the annotation of the given type found, or {@code null}

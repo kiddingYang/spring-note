@@ -9,10 +9,25 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class Person {
+@Test
+public class Person implements FactoryBean {
 
     private String name;
 
     private int age;
 
+    @Override
+    public Object getObject() throws Exception {
+        return new Person();
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return Person.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return false;
+    }
 }
