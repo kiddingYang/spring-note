@@ -3,6 +3,7 @@ package com.application.beans;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.beans.factory.FactoryBean;
 
 /**
  * Created by Administrator on 2018/10/4.
