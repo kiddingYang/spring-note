@@ -35,11 +35,20 @@ import org.springframework.util.StringValueResolver;
  * client methods in the {@link org.springframework.beans.factory.BeanFactory}
  * interface.
  *
+ * 绝大部分bean工厂都会实现可配置的接口(也就是说绝大部分bean工厂都会实现该接口).
+ * 提供了除{@link org.springframework.beans.factory.BeanFactory}接口提供的方法外,
+ * 还提供了配置一个bean工厂
+ *
  * <p>This bean factory interface is not meant to be used in normal application
  * code: Stick to {@link org.springframework.beans.factory.BeanFactory} or
  * {@link org.springframework.beans.factory.ListableBeanFactory} for typical
  * needs. This extended interface is just meant to allow for framework-internal
  * plug'n'play and for special access to bean factory configuration methods.
+ *
+ * 这个bean工厂的接口不该在正常的应用代码中使用,在通常情况下应该使用{@link org.springframework.beans.factory.BeanFactory}
+ * 或者{@link org.springframework.beans.factory.ListableBeanFactory}工厂.
+ * 这个扩展接口仅仅是允许框架内部对bean工厂配置方法的特殊使用.
+ *
  *
  * @author Juergen Hoeller
  * @since 03.11.2003
@@ -52,6 +61,10 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     /**
      * Scope identifier for the standard singleton scope: "singleton".
      * Custom scopes can be added via {@code registerScope}.
+     *
+     * 标准的单例的标识符.
+     * 可以通过{@code registerScope}来定制bean的范围
+     *
      * @see #registerScope
      */
     String SCOPE_SINGLETON = "singleton";
@@ -59,6 +72,10 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     /**
      * Scope identifier for the standard prototype scope: "prototype".
      * Custom scopes can be added via {@code registerScope}.
+     *
+     * 标准的原型标识符
+     * 可以通过{@code registerScope}方法来定制bean的范围
+     *
      * @see #registerScope
      */
     String SCOPE_PROTOTYPE = "prototype";
@@ -68,6 +85,13 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * Set the parent of this bean factory.
      * <p>Note that the parent cannot be changed: It should only be set outside
      * a constructor if it isn't available at the time of factory instantiation.
+     *
+     * 设置当前工厂的父工厂
+     * 父工厂不能被改变,如果工厂实例化的时候没有可以的构造函数(即没有传入父工厂的构造函数)
+     * 应该使用外部的set方法设置.
+     *
+     * 如果当前工厂已经有一个父工厂,将会有IllegalStateException异常
+     *
      * @param parentBeanFactory the parent BeanFactory
      * @throws IllegalStateException if this factory is already associated with
      * a parent BeanFactory
@@ -78,10 +102,15 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     /**
      * Set the class loader to use for loading bean classes.
      * Default is the thread context class loader.
+     *
+     *
+     *
      * <p>Note that this class loader will only apply to bean definitions
      * that do not carry a resolved bean class yet. This is the case as of
      * Spring 2.0 by default: Bean definitions only carry bean class names,
      * to be resolved once the factory processes the bean definition.
+     *
+     *
      * @param beanClassLoader the class loader to use,
      * or {@code null} to suggest the default class loader
      */
