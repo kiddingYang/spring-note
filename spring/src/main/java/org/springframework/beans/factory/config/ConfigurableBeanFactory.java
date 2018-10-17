@@ -187,6 +187,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * An ApplicationContext will typically set a standard expression strategy
      * here, supporting "#{...}" expressions in a Unified EL compatible style.
      *
+     * 在bean定义值中指定表达式的解析策略.
+     * 默认情况下,beanFactory是没有支持表达式的.
+     * 一个ApplicationContext通常或设置一个标准的表达式解析策略,支持#{...}统一的兼容样式的表达式
      *
      *
      * @since 3.0
@@ -195,6 +198,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
     /**
      * Return the resolution strategy for expressions in bean definition values.
+     *
+     * 返回一个bean定义中的表达式的解析策略
+     *
      * @since 3.0
      */
     BeanExpressionResolver getBeanExpressionResolver();
@@ -202,12 +208,18 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     /**
      * Specify a Spring 3.0 ConversionService to use for converting
      * property values, as an alternative to JavaBeans PropertyEditors.
+     *
+     * 指定用于spring3.0的ConversionService转换属性值,作为JavaBeans的PropertyEditors替代
+     *
      * @since 3.0
      */
     void setConversionService(ConversionService conversionService);
 
     /**
      * Return the associated ConversionService, if any.
+     *
+     * 如果有的话返回关联的ConversionService
+     *
      * @since 3.0
      */
     ConversionService getConversionService();
@@ -218,6 +230,11 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * on the given registry, fresh for each bean creation attempt. This avoids
      * the need for synchronization on custom editors; hence, it is generally
      * preferable to use this method instead of {@link #registerCustomEditor}.
+     *
+     * 在所有bean的创建过程中添加一个PropertyEditorRegistrar
+     * 注册器为每个尝试创建的bean创建新的PropertyEditor实例并且注册他们在指定的注册表上,
+     * 这样既避免了对定制编辑器的同步需求,因此,通常最好使用这个方法,而不是{@link #registerCustomEditor}.
+     *
      * @param registrar the PropertyEditorRegistrar to register
      */
     void addPropertyEditorRegistrar(PropertyEditorRegistrar registrar);
