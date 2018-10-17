@@ -16,9 +16,6 @@
 
 package org.springframework.beans.factory.config;
 
-import java.beans.PropertyEditor;
-import java.security.AccessControlContext;
-
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.TypeConverter;
@@ -28,6 +25,9 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringValueResolver;
+
+import java.beans.PropertyEditor;
+import java.security.AccessControlContext;
 
 /**
  * Configuration interface to be implemented by most bean factories. Provides
@@ -103,13 +103,17 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * Set the class loader to use for loading bean classes.
      * Default is the thread context class loader.
      *
-     *
+     * 设置class加载器去加载bean的class
+     * 默认是当前线程上下文的class加载器
      *
      * <p>Note that this class loader will only apply to bean definitions
      * that do not carry a resolved bean class yet. This is the case as of
      * Spring 2.0 by default: Bean definitions only carry bean class names,
      * to be resolved once the factory processes the bean definition.
      *
+     * 需要知道的是类加载仅仅是对beanDefinitions适用,并且不包含已经解析的bean类.
+     * 默认情况下spring2.0的bean定义仅仅包含bean类名,一旦bean工厂处理了bean定义,就会解析
+     * 这个类
      *
      * @param beanClassLoader the class loader to use,
      * or {@code null} to suggest the default class loader
@@ -118,16 +122,28 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
     /**
      * Return this factory's class loader for loading bean classes.
+     *
+     * 返回这个bean工厂加载bean class的类加载器
+     *
      */
     ClassLoader getBeanClassLoader();
 
     /**
      * Specify a temporary ClassLoader to use for type matching purposes.
      * Default is none, simply using the standard bean ClassLoader.
+     *
+     * 指定一个临时的类加载器用来类型匹配。
+     * 默认是没有的，使用的是标准的bean类加载器。
+     *
      * <p>A temporary ClassLoader is usually just specified if
      * <i>load-time weaving</i> is involved, to make sure that actual bean
      * classes are loaded as lazily as possible. The temporary loader is
      * then removed once the BeanFactory completes its bootstrap phase.
+     *
+     * 一个临时类加载器通常被指定在加载时织入被使用,用来确保真正bean的class被加载尽可能的慢(用来加载被织入的类).
+     * 临时的类加载器将会在bean工厂完成启动阶段后被移除
+     *
+     *
      * @since 2.5
      */
     void setTempClassLoader(ClassLoader tempClassLoader);
@@ -135,6 +151,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     /**
      * Return the temporary ClassLoader to use for type matching purposes,
      * if any.
+     *
+     * 如果需要的话，返回临时加载器,用来类型匹配
+     *
      * @since 2.5
      */
     ClassLoader getTempClassLoader();
@@ -145,12 +164,20 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * <p>Turn this flag off to enable hot-refreshing of bean definition objects
      * and in particular bean classes. If this flag is off, any creation of a bean
      * instance will re-query the bean class loader for newly resolved classes.
+     *
+     * 设置是否缓存bean的元数据,例如给定的bean定义(已合并的方式)和被解析的bean class.
+     * 默认是开启的,关闭这个标签,可以开启beanDefinition和部分bean class的热刷新。
+     * 如果这个标志关闭，创建任何bean的实例都会重新查询bean class
+     *
      */
     void setCacheBeanMetadata(boolean cacheBeanMetadata);
 
     /**
      * Return whether to cache bean metadata such as given bean definitions
      * (in merged fashion) and resolved bean classes.
+     *
+     * 返回是否缓存bean的元数据,例如给定的bean定义(已合并的方式)和被解析的bean class.
+     *
      */
     boolean isCacheBeanMetadata();
 
@@ -159,6 +186,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * <p>There is no expression support active in a BeanFactory by default.
      * An ApplicationContext will typically set a standard expression strategy
      * here, supporting "#{...}" expressions in a Unified EL compatible style.
+     *
+     *
+     *
      * @since 3.0
      */
     void setBeanExpressionResolver(BeanExpressionResolver resolver);
