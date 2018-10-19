@@ -22,5 +22,5 @@
 中大部分的实现类都是实现ConfigurableListableBeanFactory接口.
 
 ##### BeanFactory 接口继承图 
- ![接口继承图](spring/src/main/summary/BeanFactory.png)
+ ![接口继承图](BeanFactory.png)
 
