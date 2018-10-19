@@ -21,5 +21,5 @@
 
 ##### BeanFactory 接口继承图 
 
-![](spring/src/main/summary/BeanFactory.png)
+  ![](spring/src/main/summary/BeanFactory.png)
 
