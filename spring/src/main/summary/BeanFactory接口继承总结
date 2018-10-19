@@ -19,5 +19,7 @@
 工厂的功能,并且还扩展了一些方法,例如根据bean名称获取BeanDefinition,忽略某些指定的类型和接口,冻结definitions的定义等等.在spring
 中大部分的实现类都是实现ConfigurableListableBeanFactory接口.
 
-##### BeanFactory 接口继承图
-      ![](BeanFactory.png)
+##### BeanFactory 接口继承图 
+
+![](spring/src/main/summary/BeanFactory.png)
+
