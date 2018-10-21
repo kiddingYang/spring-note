@@ -32,12 +32,17 @@ import org.springframework.util.StringValueResolver;
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * implementations.
  *
+ * {@link AliasRegistry}接口的一个简单实现,作为{@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
+ * 一个基类实现
+ *
+ *
  * @author Juergen Hoeller
  * @since 2.5.2
  */
 public class SimpleAliasRegistry implements AliasRegistry {
 
     /** Map from alias to canonical name */
+    // 别名和名称的映射
     private final Map<String, String> aliasMap = new ConcurrentHashMap<String, String>(16);
 
 
@@ -45,10 +50,12 @@ public class SimpleAliasRegistry implements AliasRegistry {
         Assert.hasText(name, "'name' must not be empty");
         Assert.hasText(alias, "'alias' must not be empty");
         if (alias.equals(name)) {
+            // 如果别名和名称相同,就移除别名
             this.aliasMap.remove(alias);
         }
         else {
             if (!allowAliasOverriding()) {
+                // 如果不允许覆盖,如果查询到这个bean已经注册了这个别名,那么就抛出异常
                 String registeredName = this.aliasMap.get(alias);
                 if (registeredName != null && !registeredName.equals(name)) {
                     throw new IllegalStateException("Cannot register alias '" + alias + "' for name '" +
@@ -63,11 +70,19 @@ public class SimpleAliasRegistry implements AliasRegistry {
     /**
      * Return whether alias overriding is allowed.
      * Default is {@code true}.
+     *
+     * 返回是否可以覆盖别名
+     * 默认是true
+     *
      */
     protected boolean allowAliasOverriding() {
         return true;
     }
 
+    /**
+     * 移除别名
+     * @param alias the alias to remove
+     */
     public void removeAlias(String alias) {
         String name = this.aliasMap.remove(alias);
         if (name == null) {
@@ -75,10 +90,14 @@ public class SimpleAliasRegistry implements AliasRegistry {
         }
     }
 
+    /**
+     * 判断是否包含该名称的别名
+     */
     public boolean isAlias(String name) {
         return this.aliasMap.containsKey(name);
     }
 
+    // 获取bean-name的所有别名
     public String[] getAliases(String name) {
         List<String> result = new ArrayList<String>();
         synchronized (this.aliasMap) {
@@ -89,6 +108,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
     /**
      * Transitively retrieve all aliases for the given name.
+     * 检索是否有别名,如果有放入在result中
      * @param name the target name to find aliases for
      * @param result the resulting aliases list
      */
@@ -108,6 +128,10 @@ public class SimpleAliasRegistry implements AliasRegistry {
      * factory, applying the given StringValueResolver to them.
      * <p>The value resolver may for example resolve placeholders
      * in target bean names and even in alias names.
+     *
+     * 解析在此工厂中注册所有别名的目标名称和别名,将指定的StringValueResolver应用于他们.
+     * 例如,值解析器可以解析目标bean名称中的占位符,甚至可以解析别名中的占位符.
+     *
      * @param valueResolver the StringValueResolver to apply
      */
     public void resolveAliases(StringValueResolver valueResolver) {
@@ -142,6 +166,10 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
     /**
      * Determine the raw name, resolving aliases to canonical names.
+     * 将别名解析成为规范的名称.
+     * 需要处理别名的别名这种情况.比如A->B->C
+     * bean A的别名是B,B的别名是C,那么通过C需要知道A
+     *
      * @param name the user-specified name
      * @return the transformed name
      */
@@ -163,6 +191,14 @@ public class SimpleAliasRegistry implements AliasRegistry {
      * Check whether the given name points back to given alias as an alias
      * in the other direction, catching a circular reference upfront and
      * throwing a corresponding IllegalStateException.
+     * 校验给定的名称是否是另一个指定方向的别名,在循环引用钱抛出一个IllegalStateException异常
+     *
+     * 也就是是说现在name的别名是alias 即 name -> alias
+     * 如果有一个bean X的别名是name 那就是 X -> name
+     *
+     * 这样会有一个问题就是 X->name->alias alias也成为了X的别名,所以spring限制了这样的使用
+     * 总结就是一个名称不能在两个bean中既当bean name又当别名
+     *
      * @param name the candidate name
      * @param alias the candidate alias
      * @see #registerAlias
