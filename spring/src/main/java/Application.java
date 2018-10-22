@@ -1,5 +1,6 @@
 import com.application.beans.Book;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
@@ -29,10 +30,14 @@ public class Application {
 
         // AutowireCapableBeanFactory 测试
 
-        AutowireCapableBeanFactory autowireCapableBeanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
-        Book autowire = (Book) autowireCapableBeanFactory.autowire(Book.class, AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, false);
+//        AutowireCapableBeanFactory autowireCapableBeanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
+//        Book autowire = (Book) autowireCapableBeanFactory.autowire(Book.class, AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, false);
 //        Book bean = autowireCapableBeanFactory.getBean(Book.class);
-        System.out.println(autowire.getPerson());
+//        System.out.println(autowire.getPerson());
+
+
+        DefaultSingletonBeanRegistry registry = new DefaultSingletonBeanRegistry();
+//        registry.re
 
     }
 
