@@ -1,4 +1,7 @@
 import com.application.beans.Book;
+import com.application.beans.Person;
+import com.application.beans.defaultSingletonBeanRegistry.Teacher;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -36,8 +39,12 @@ public class Application {
 //        System.out.println(autowire.getPerson());
 
 
-        DefaultSingletonBeanRegistry registry = new DefaultSingletonBeanRegistry();
-//        registry.re
+//        DefaultSingletonBeanRegistry registry = new DefaultSingletonBeanRegistry();
+
+
+        ListableBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
+        Teacher person = beanFactory.getBean(Teacher.class);
+        System.out.println(person);
 
     }
 

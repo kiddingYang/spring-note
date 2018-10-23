@@ -3,10 +3,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="person"  class="com.application.beans.Person">
-        <property name="name" value="jayng"/>
-    </bean>
+    <!--<bean id="person"  class="com.application.beans.Person">-->
+    <!--<property name="name" value="jayng"/>-->
+    <!--</bean>-->
 
-    <alias name="person" alias="personAlias"/>
+    <!--<alias name="person" alias="personAlias"/>-->
+
+    <bean id="student" class="com.application.beans.defaultSingletonBeanRegistry.Student"/>
+
+    <bean id="teacher" class="com.application.beans.defaultSingletonBeanRegistry.Teacher">
+        <property name="student" ref="student"/>
+    </bean>
 
 </beans>
