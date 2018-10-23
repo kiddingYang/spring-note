@@ -16,26 +16,16 @@
 
 package org.springframework.beans.factory.support;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.BeanCreationNotAllowedException;
-import org.springframework.beans.factory.BeanCurrentlyInCreationException;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.core.SimpleAliasRegistry;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Generic registry for shared bean instances, implementing the
@@ -151,10 +141,14 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
     private final Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap<String, Set<String>>(64);
 
 
+    /**
+     *  注册一个单例的bean
+     */
     public void registerSingleton(String beanName, Object singletonObject) throws IllegalStateException {
         Assert.notNull(beanName, "'beanName' must not be null");
         synchronized (this.singletonObjects) {
             Object oldObject = this.singletonObjects.get(beanName);
+            // 如果该bean名称已经注册,抛出异常
             if (oldObject != null) {
                 throw new IllegalStateException("Could not register object [" + singletonObject +
                         "] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
@@ -165,7 +159,9 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
     /**
      * Add the given singleton object to the singleton cache of this factory.
+     * 添加给定单例对象到该工程的单例缓存中
      * <p>To be called for eager registration of singletons.
+     * 为了给提前注册的单例调用
      * @param beanName the name of the bean
      * @param singletonObject the singleton object
      */
