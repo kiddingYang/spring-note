@@ -128,63 +128,83 @@ import org.springframework.util.StringValueResolver;
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     /** Parent bean factory, for bean inheritance support */
+    // 父bean工厂,用于bean继承支持
     private BeanFactory parentBeanFactory;
 
     /** ClassLoader to resolve bean class names with, if necessary */
+    // 如果需要的话,使用类加载器来解析bean类名
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     /** ClassLoader to temporarily resolve bean class names with, if necessary */
+    // 如果需要的话,使用临时的类加载器来解析bean类名
     private ClassLoader tempClassLoader;
 
     /** Whether to cache bean metadata or rather reobtain it for every access */
+    // 是缓存bean的元数据还是每次访问重新获取数据
     private boolean cacheBeanMetadata = true;
 
     /** Resolution strategy for expressions in bean definition values */
+    // bean定义值中表达式的解析策略
     private BeanExpressionResolver beanExpressionResolver;
 
     /** Spring 3.0 ConversionService to use instead of PropertyEditors */
+    // 使用Spring 3.0 ConversionService代替PropertyEditors
     private ConversionService conversionService;
 
     /** Custom PropertyEditorRegistrars to apply to the beans of this factory */
+    // 在此工厂的bean中使用自定义PropertyEditorRegistrars
     private final Set<PropertyEditorRegistrar> propertyEditorRegistrars =
             new LinkedHashSet<PropertyEditorRegistrar>(4);
 
     /** A custom TypeConverter to use, overriding the default PropertyEditor mechanism */
+    // 要使用的自定义类型转换程序,覆盖默认的PropertyEditor机制
     private TypeConverter typeConverter;
 
     /** Custom PropertyEditors to apply to the beans of this factory */
+    // 在此工厂的bean中使用自定义PropertyEditors
     private final Map<Class<?>, Class<? extends PropertyEditor>> customEditors =
             new HashMap<Class<?>, Class<? extends PropertyEditor>>(4);
 
     /** String resolvers to apply e.g. to annotation attribute values */
+    // 应用字符串解析器,例如注解属性值
     private final List<StringValueResolver> embeddedValueResolvers = new LinkedList<StringValueResolver>();
 
     /** BeanPostProcessors to apply in createBean */
+    // 在创建bean时的bean后置处理器
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
-    /** Indicates whether any InstantiationAwareBeanPostProcessors have been registered */
+    /** Indicates whether any Instantiation AwareBeanPostProcessors have been registered */
+    // 标志是否注册了任何实例化AwareBeanPostProcessors
     private boolean hasInstantiationAwareBeanPostProcessors;
 
     /** Indicates whether any DestructionAwareBeanPostProcessors have been registered */
+    // 标志是否注册了任何销毁的AwareBeanPostProcessors
     private boolean hasDestructionAwareBeanPostProcessors;
 
     /** Map from scope identifier String to corresponding Scope */
+    // 范围标识符字符串和相应的范围的映射(用来控制bean的使用范围,如在web环境下)
     private final Map<String, Scope> scopes = new HashMap<String, Scope>(8);
 
     /** Security context used when running with a SecurityManager */
+    // 使用SecurityManager,运行时使用的安全的上下文
     private SecurityContextProvider securityContextProvider;
 
     /** Map from bean name to merged RootBeanDefinition */
+    // bean名称和需要合并的RootBeanDefinition映射
     private final Map<String, RootBeanDefinition> mergedBeanDefinitions =
             new ConcurrentHashMap<String, RootBeanDefinition>(64);
 
     /**
      * Names of beans that have already been created at least once
      * (using a ConcurrentHashMap as a Set)
+     *
+     * 已经至少创建一次的bean的名称(使用ConcurrentHashMap替代SET的功能)
+     *
      */
     private final Map<String, Boolean> alreadyCreated = new ConcurrentHashMap<String, Boolean>(64);
 
     /** Names of beans that are currently in creation */
+    // 正在创建的bean名称集合
     private final ThreadLocal<Object> prototypesCurrentlyInCreation =
             new NamedThreadLocal<Object>("Prototype beans currently in creation");
 
@@ -197,6 +217,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
     /**
      * Create a new AbstractBeanFactory with the given parent.
+     * 使用给定的父工厂创建AbstractBeanFactory
      * @param parentBeanFactory parent bean factory, or {@code null} if none
      * @see #getBean
      */
