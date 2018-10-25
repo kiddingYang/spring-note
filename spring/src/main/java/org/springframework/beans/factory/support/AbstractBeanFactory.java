@@ -81,6 +81,12 @@ import org.springframework.util.StringValueResolver;
  * as base class for bean factory implementations which obtain bean definitions
  * from some backend resource (where bean definition access is an expensive operation).
  *
+ * {@link org.springframework.beans.factory.BeanFactory}接口的基础抽象实现,通过SPI提供
+ * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory}接口的完整功能
+ * 不是一个可列表的bean工厂: 因此可以作为bean工厂实现的基类,从某些后端资源(当其中beanDefinition访问
+ * 是一个昂贵的操作)获取beanDefinition
+ *
+ *
  * <p>This class provides a singleton cache (through its base class
  * {@link org.springframework.beans.factory.support.DefaultSingletonBeanRegistry},
  * singleton/prototype determination, {@link org.springframework.beans.factory.FactoryBean}
@@ -90,11 +96,24 @@ import org.springframework.util.StringValueResolver;
  * hierarchy (delegating to the parent in case of an unknown bean), through implementing
  * the {@link org.springframework.beans.factory.HierarchicalBeanFactory} interface.
  *
+ * 这个类提供了一个单例的缓存(通过基类{@link org.springframework.beans.factory.support.DefaultSingletonBeanRegistry},
+ * 确定单例和原型模式,{@link org.springframework.beans.factory.FactoryBean}的处理,别名,子类beanDefinition
+ * 的合并和({@link org.springframework.beans.factory.DisposableBean}的销毁).
+ *
+ * 此外他还通过实现{@link org.springframework.beans.factory.HierarchicalBeanFactory}接口来管理有父类的bean工厂
+ * (如果有在当前工厂中查询不到的bean,委托给父工厂处理)
+ *
+ *
  * <p>The main template methods to be implemented by subclasses are
  * {@link #getBeanDefinition} and {@link #createBean}, retrieving a bean definition
  * for a given bean name and creating a bean instance for a given bean definition,
  * respectively. Default implementations of those operations can be found in
  * {@link DefaultListableBeanFactory} and {@link AbstractAutowireCapableBeanFactory}.
+ *
+ * 子类需要实现的主要模板方法有{@link #getBeanDefinition} 和 {@link #createBean},分别给指定bean名称检索出beanDefinition和
+ * beanDefinition创建bean的实例.
+ * 这些操作的默认实现可以在{@link DefaultListableBeanFactory} 和 {@link AbstractAutowireCapableBeanFactory}中找到
+ *
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
