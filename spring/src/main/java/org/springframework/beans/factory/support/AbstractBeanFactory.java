@@ -304,8 +304,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         else {
             // Fail if we're already creating this bean instance:
             // We're assumably within a circular reference.
-            // 如果我们已经创建了这个bean实例，就会失败:我们假设是在循环引用中。
+            // 如果我们已经创建了这个bean实例，就会失败:我们假设是在循环引用中
             if (isPrototypeCurrentlyInCreation(beanName)) {
+                // 原型模式抛出异常
                 throw new BeanCurrentlyInCreationException(beanName);
             }
 
@@ -373,7 +374,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
                     bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
                 }
 
-                // 如果是原始模式
+                // 如果是原型模式
                 else if (mbd.isPrototype()) {
                     // It's a prototype -> create a new instance.
                     Object prototypeInstance = null;
@@ -451,43 +452,55 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return (T) bean;
     }
 
+    // 检查是否包含指定名称的bean
     public boolean containsBean(String name) {
         String beanName = transformedBeanName(name);
+        // 如果包含bean的实例或者包含bean的BeanDefinition
         if (containsSingleton(beanName) || containsBeanDefinition(beanName)) {
+            // 如果bean名称没有FACTORY_BEAN_PREFIX直接返回存在,否则判断是否存在FactoryBean实例,存在表示该bean存在
             return (!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(name));
         }
         // Not found -> check parent.
+        // 如果当前工厂查询不到,查询父工厂
         BeanFactory parentBeanFactory = getParentBeanFactory();
         return (parentBeanFactory != null && parentBeanFactory.containsBean(originalBeanName(name)));
     }
 
+    // 判断指定名称是否是单例
     public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
         String beanName = transformedBeanName(name);
 
         Object beanInstance = getSingleton(beanName, false);
         if (beanInstance != null) {
+            // 如果bean实例不为空
             if (beanInstance instanceof FactoryBean) {
+                // 如果bean名称没有FACTORY_BEAN_PREFIX直接返回存在,否则判断FactoryBean.isSingleton()
                 return (BeanFactoryUtils.isFactoryDereference(name) || ((FactoryBean<?>) beanInstance).isSingleton());
             }
             else {
+                // 如果不为FactoryBean实例则返回true
                 return !BeanFactoryUtils.isFactoryDereference(name);
             }
         }
+        // 如果包含bean的单例实例直接返回
         else if (containsSingleton(beanName)) {
             return true;
         }
 
         else {
             // No singleton instance found -> check bean definition.
+            // 如果当前工厂中没有单例.检查beanDefinition
             BeanFactory parentBeanFactory = getParentBeanFactory();
             if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
                 // No bean definition found in this factory -> delegate to parent.
+                // 如果当前工厂找不到beanDefinition,那么从父工厂中查询
                 return parentBeanFactory.isSingleton(originalBeanName(name));
             }
 
             RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 
             // In case of FactoryBean, return singleton status of created object if not a dereference.
+            // 对于FactoryBean,如果没有取消引用,则返回已创建对象的单例状态。
             if (mbd.isSingleton()) {
                 if (isFactoryBean(beanName, mbd)) {
                     if (BeanFactoryUtils.isFactoryDereference(name)) {
@@ -506,6 +519,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         }
     }
 
+    // 判断是否原型模式
     public boolean isPrototype(String name) throws NoSuchBeanDefinitionException {
         String beanName = transformedBeanName(name);
 
@@ -869,6 +883,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     /**
      * Return the list of BeanPostProcessors that will get applied
      * to beans created with this factory.
+     *
+     * 返回将应用于此工厂创建的bean的后置处理区列表。
+     *
      */
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
@@ -877,6 +894,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     /**
      * Return whether this factory holds a InstantiationAwareBeanPostProcessor
      * that will get applied to singleton beans on shutdown.
+     *
+     * 返回该工厂是否持有实例化感知bean后置处理器,该处理器将应用于bean.
+     *
      * @see #addBeanPostProcessor
      * @see org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
      */
@@ -1004,7 +1024,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
     /**
      * Return whether the specified prototype bean is currently in creation
+     * 返回指定的原型bean是否在创建中
      * (within the current thread).
+     * // 在当前线程中
      * @param beanName the name of the bean
      */
     protected boolean isPrototypeCurrentlyInCreation(String beanName) {

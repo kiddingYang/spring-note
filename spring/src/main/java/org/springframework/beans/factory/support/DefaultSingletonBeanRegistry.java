@@ -328,7 +328,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
         }
     }
 
-    // 检查是否包含该bean的实例
+    // 检查是否包含该bean的单例实例
     public boolean containsSingleton(String beanName) {
         return (this.singletonObjects.containsKey(beanName));
     }
