@@ -32,4 +32,4 @@
         转换,spring提供了一些默认的转换器,用户也可以自定义扩展转换器
         
         中文注释:
-   [org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean](spring/src/main/java/org/springframework/beans/factory/support/AbstractBeanFactory)
+   [org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean](../../main/java/org/springframework/beans/factory/support/AbstractBeanFactory.java)
