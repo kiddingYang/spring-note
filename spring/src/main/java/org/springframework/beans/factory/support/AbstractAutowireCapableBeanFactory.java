@@ -138,43 +138,52 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         implements AutowireCapableBeanFactory {
 
     /** Strategy for creating bean instances */
+    // 创建bean实例的策略
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
     /** Resolver strategy for method parameter names */
+    // 对于方法参数名称的解析器策略
     private ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
 
     /** Whether to automatically try to resolve circular references between beans */
+    // 是否自动尝试解析bean之前的循环引用
     private boolean allowCircularReferences = true;
 
     /**
      * Whether to resort to injecting a raw bean instance in case of circular reference,
      * even if the injected bean eventually got wrapped.
      */
+    // 是否在循环引用的情况下使用诸如生成bean的实例,即使诸如的bean最终会被包装
     private boolean allowRawInjectionDespiteWrapping = false;
 
     /**
      * Dependency types to ignore on dependency check and autowire, as Set of
      * Class objects: for example, String. Default is none.
      */
+    // 依赖类型忽略依赖检查和自动注入,是一个class对象的Set,如String默认是没有的
     private final Set<Class<?>> ignoredDependencyTypes = new HashSet<Class<?>>();
 
     /**
      * Dependency interfaces to ignore on dependency check and autowire, as Set of
      * Class objects. By default, only the BeanFactory interface is ignored.
      */
+    // 忽略依赖检查和注入的依赖接口,是一个class对象的set,默认情况下只有BeanFactory接口是忽略的
     private final Set<Class<?>> ignoredDependencyInterfaces = new HashSet<Class<?>>();
 
     /** Cache of unfinished FactoryBean instances: FactoryBean name --> BeanWrapper */
+    // 缓存为结束的FactoryBean 实例 : factoryBean 名称和BeanWrapper映射
     private final Map<String, BeanWrapper> factoryBeanInstanceCache =
             new ConcurrentHashMap<String, BeanWrapper>(16);
 
     /** Cache of filtered PropertyDescriptors: bean Class -> PropertyDescriptor array */
+    //  PropertyDescriptors 过滤器缓存
     private final Map<Class<?>, PropertyDescriptor[]> filteredPropertyDescriptorsCache =
             new ConcurrentHashMap<Class<?>, PropertyDescriptor[]>(64);
 
 
     /**
      * Create a new AbstractAutowireCapableBeanFactory.
+     * 创建AbstractAutowireCapableBeanFactory实例
      */
     public AbstractAutowireCapableBeanFactory() {
         super();
@@ -185,6 +194,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * Create a new AbstractAutowireCapableBeanFactory with the given parent.
+     * 创建带父工厂的AbstractAutowireCapableBeanFactory实例
      * @param parentBeanFactory parent bean factory, or {@code null} if none
      */
     public AbstractAutowireCapableBeanFactory(BeanFactory parentBeanFactory) {
