@@ -84,10 +84,20 @@ import org.springframework.util.StringUtils;
  * Implements the {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface in addition to AbstractBeanFactory's {@link #createBean} method.
  *
+ * 实现默认bean创建的抽象父类bean工厂,具有{@link RootBeanDefinition}类指定的全部功能.
+ * 实现{@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}接口,
+ * 还提供了AbstractBeanFactory的{@link #createBean}方法.
+ *
+ *
  * <p>Provides bean creation (with constructor resolution), property population,
  * wiring (including autowiring), and initialization. Handles runtime bean
  * references, resolves managed collections, calls initialization methods, etc.
  * Supports autowiring constructors, properties by name, and properties by type.
+ *
+ * 提供了bean的创建(带有构造器解析),属性填充,注入和初始化.
+ * 处理bean运行时引用,解析管理集合,调用初始化方法等等.
+ * 提供了构造器注入,通过属性名称注入,类型注入.
+ *
  *
  * <p>The main template method to be implemented by subclasses is
  * {@link #resolveDependency(DependencyDescriptor, String, Set, TypeConverter)},
@@ -95,11 +105,22 @@ import org.springframework.util.StringUtils;
  * its bean definitions, matching beans will typically be implemented through such
  * a search. For other factory styles, simplified matching algorithms can be implemented.
  *
+ * 子类需要实现主要的模板方式是{@link #resolveDependency(DependencyDescriptor, String, Set, TypeConverter)},
+ *  用于按照类型自动注入. 对于能够搜索BeanDefinition的工厂,匹配bean通常会通过这样的搜索实现,对于其他的工厂,
+ *  可以实现简化的匹配算法
+ *
+ *
  * <p>Note that this class does <i>not</i> assume or implement bean definition
  * registry capabilities. See {@link DefaultListableBeanFactory} for an implementation
  * of the {@link org.springframework.beans.factory.ListableBeanFactory} and
  * {@link BeanDefinitionRegistry} interfaces, which represent the API and SPI
  * view of such a factory, respectively.
+ *
+ * 需要注意的是这个类不需要假设或者实现BeanDefinition注册的功能.
+ * 查看{@link DefaultListableBeanFactory}作为{@link org.springframework.beans.factory.ListableBeanFactory}接口和
+ * {@link org.springframework.beans.factory.ListableBeanFactory}接口的实现,他们分别表示此类工厂的API和SPI
+ *
+ *
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

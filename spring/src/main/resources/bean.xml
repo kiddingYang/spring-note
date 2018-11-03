@@ -9,7 +9,9 @@
 
     <!--<alias name="person" alias="personAlias"/>-->
 
-    <bean id="student" class="com.application.beans.defaultSingletonBeanRegistry.Student"/>
+    <bean id="student" class="com.application.beans.defaultSingletonBeanRegistry.Student">
+        <property name="teacher" ref="teacher"/>
+    </bean>
 
     <bean id="teacher" class="com.application.beans.defaultSingletonBeanRegistry.Teacher">
         <property name="student" ref="student"/>

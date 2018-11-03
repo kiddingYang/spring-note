@@ -43,7 +43,7 @@ public class Application {
 
 
         ListableBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
-        Teacher person = beanFactory.getBean(Teacher.class);
+        Teacher person = (Teacher) beanFactory.getBean("teacher");
         System.out.println(person);
 
     }

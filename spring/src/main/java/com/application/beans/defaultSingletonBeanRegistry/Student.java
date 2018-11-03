@@ -16,4 +16,6 @@ public class Student {
 
     private int score;
 
+    private Teacher teacher;
+
 }
