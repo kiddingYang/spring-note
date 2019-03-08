@@ -1,14 +1,6 @@
-import com.application.beans.Book;
-import com.application.beans.Person;
 import com.application.beans.defaultSingletonBeanRegistry.Teacher;
-import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
-
-
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Administrator on 2018/10/4.
@@ -42,9 +34,23 @@ public class Application {
 //        DefaultSingletonBeanRegistry registry = new DefaultSingletonBeanRegistry();
 
 
-        ListableBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
+//        ListableBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
+        ApplicationContext beanFactory = new ClassPathXmlApplicationContext("bean.xml");
         Teacher person = (Teacher) beanFactory.getBean("teacher");
         System.out.println(person);
+
+//        ProxyFactory proxyFactory = new ProxyFactory();
+//        proxyFactory.setTarget(new Student());
+//
+//        proxyFactory.addAdvice((MethodBeforeAdvice) (method, args1, target) -> {
+//            System.out.println("before invoke");
+//            method.invoke(target, args1);
+//        });
+//
+//        Student proxy = (Student) proxyFactory.getProxy();
+//        System.out.println(proxy.getName());
+
+//        proxyFactory.addAdvisor();
 
     }
 
