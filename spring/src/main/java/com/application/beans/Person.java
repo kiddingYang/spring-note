@@ -3,8 +3,8 @@ package com.application.beans;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Administrator on 2018/10/4.
@@ -12,11 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Data
 @ToString
 @Test
+@Component
 public class Person /*implements FactoryBean*/ {
 
     private String name;
 
     private int age;
+
+    @Autowired
+    private Book book;
 
 
 //    @Override
@@ -33,21 +37,5 @@ public class Person /*implements FactoryBean*/ {
 //    public boolean isSingleton() {
 //        return false;
 //    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 
 }

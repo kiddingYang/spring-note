@@ -1,6 +1,13 @@
-import com.application.beans.defaultSingletonBeanRegistry.Teacher;
+import com.application.beans.Book;
+import com.application.beans.DicBook;
+import com.application.beans.Person;
+import com.application.beans.defaultSingletonBeanRegistry.Student;
+import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by Administrator on 2018/10/4.
@@ -36,19 +43,26 @@ public class Application {
 
 //        ListableBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("bean.xml"));
         ApplicationContext beanFactory = new ClassPathXmlApplicationContext("bean.xml");
-        Teacher person = (Teacher) beanFactory.getBean("teacher");
-        System.out.println(person);
+        Person bean1 = beanFactory.getBean(Person.class);
+        DicBook bean = beanFactory.getBean(DicBook.class);
+        Book bean2 = (Book) beanFactory.getBean("book");
+        System.out.println(bean + bean1.toString());
+//        Teacher person = (Teacher) beanFactory.getBean("teacher");
+//        System.out.println(person);
 
-//        ProxyFactory proxyFactory = new ProxyFactory();
-//        proxyFactory.setTarget(new Student());
-//
-//        proxyFactory.addAdvice((MethodBeforeAdvice) (method, args1, target) -> {
-//            System.out.println("before invoke");
-//            method.invoke(target, args1);
-//        });
-//
-//        Student proxy = (Student) proxyFactory.getProxy();
-//        System.out.println(proxy.getName());
+        ProxyFactory proxyFactory = new ProxyFactory();
+        proxyFactory.setTarget(new Student());
+
+        proxyFactory.addAdvice(new MethodBeforeAdvice() {
+            @Override
+            public void before(Method method, Object[] args, Object target) throws Throwable {
+                System.out.println("------------------");
+                method.invoke(target, args);
+            }
+        });
+
+        Student proxy = (Student) proxyFactory.getProxy();
+        System.out.println(proxy.getName());
 
 //        proxyFactory.addAdvisor();
 

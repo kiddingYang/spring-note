@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--<bean id="person"  class="com.application.beans.Person">-->
     <!--<property name="name" value="jayng"/>-->
@@ -11,15 +14,31 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="student" class="com.application.beans.defaultSingletonBeanRegistry.Student">
-        <!--<property name="teacher" ref="teacher"/>-->
-        <property name="name" value="s_name"/>
-    </bean>
+    <context:component-scan base-package="com"/>
+    <!--<bean id="student" class="com.application.beans.defaultSingletonBeanRegistry.Student">-->
+        <!--&lt;!&ndash;<property name="teacher" ref="teacher"/>&ndash;&gt;-->
+        <!--<property name="name" value="s_name"/>-->
+    <!--</bean>-->
 
-    <bean id="teacher" class="com.application.beans.defaultSingletonBeanRegistry.Teacher">
-        <property name="student" ref="student"/>
-        <property name="name" value="li"/>
-    </bean>
+    <!--<bean id="teacher" class="com.application.beans.defaultSingletonBeanRegistry.Teacher">-->
+        <!--<property name="student" ref="student"/>-->
+        <!--<property name="name" value="li"/>-->
+    <!--</bean>-->
+
+
+
+
+    <!--<bean id="book" class="com.application.beans.DicBook">-->
+    <!--<property name="person" ref="person"/>-->
+    <!--<property name="name" value="li"/>-->
+    <!--</bean>-->
+
+
+    <!--<bean id="person" class="com.application.beans.Person">-->
+        <!--<property name="book" ref="book"/>-->
+        <!--<property name="name" value="li"/>-->
+        <!--<property name="age" value="1"/>-->
+    <!--</bean>-->
 
 
     <bean id="myAdvisor" class="com.application.aop.advisor.MyAdvisor"/>

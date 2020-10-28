@@ -2,31 +2,31 @@ package com.application.beans;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by Administrator on 2018/10/19.
- */
 @Component
-public class Book {
+public class DicBook extends Book {
 
     @Autowired
     private Person Person;
     private String name;
 
-    @Transactional
+
+    @Override
     public com.application.beans.Person getPerson() {
         return Person;
     }
 
+    @Override
     public void setPerson(com.application.beans.Person person) {
         Person = person;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

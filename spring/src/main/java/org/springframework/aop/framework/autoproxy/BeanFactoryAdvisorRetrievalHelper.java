@@ -32,6 +32,8 @@ import java.util.List;
  * Helper for retrieving standard Spring Advisors from a BeanFactory,
  * for use with auto-proxying.
  *
+ * 这个类是从beanFactory中检索spring中标准Advisors，用于自动代理
+ *
  * @author Juergen Hoeller
  * @since 2.0.2
  * @see AbstractAdvisorAutoProxyCreator
